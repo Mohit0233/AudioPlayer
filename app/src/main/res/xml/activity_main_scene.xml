@@ -27,7 +27,6 @@
             android:scrollbars="vertical"
             motion:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintHorizontal_bias="0.337"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/audio_list_layout" />
