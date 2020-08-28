@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AudioPlayer</string>
+    <string name="close">Close</string>
+    <string name="playPause">playPause</string>
+    <string name="next">next</string>
+    <string name="previous">previous</string>
+    <string name="_00_00">00:00</string>
+    <string name="music_icon">Music Icon</string>
+    <string name="you_are_going_to_exit_the_app_in">You are going to exit the app in</string>
+    <string name="album_art">Album Art</string>
+    <string name="repeat">Repeat</string>
 </resources>

@@ -1,24 +1,28 @@
 package com.example.audioplayer
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.audio_list_layout.view.*
+import kotlin.math.roundToInt
 
 class MyAdapter(
     private val audioList: List<AudioItem>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder.
-    // Each data item is just a string in this case that is shown in a TextView.
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val textView: TextView = itemView.textView
+        val titleTextView: TextView = itemView.titleTextRecyclerView
+        val sizeTextView: TextView = itemView.sizeTextRecyclerView
+        val albumTextView: TextView = itemView.albumTextRecyclerView
+        val artistTextView: TextView = itemView.artistTextRecyclerView
+        val thumbnail: ImageView = itemView.thumbnail
 
         init {
             itemView.setOnClickListener(this)
@@ -32,34 +36,61 @@ class MyAdapter(
         }
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
-        // create a new view
+
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.audio_list_layout, parent, false)
-        // set the view's size, margins, padding and layout parameters
-        //...
+
         return MyViewHolder(itemView)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // - get element from your audioList at this position
-        // - replace the contents of the view with that element
+
         val currentItem = audioList[position]
 
-        holder.textView.text = currentItem.text1
+        holder.titleTextView.text = currentItem.titleP1
+        holder.artistTextView.text = currentItem.artistP5
+        var size: Any = currentItem.sizeP2
+        size = if (size.toString().toFloat() / 1024 > 1) {
+            if (size.toString().toFloat() / 1048576 > 1) {
+                (((size.toString().toFloat() / 1024) / 1024 * 100).roundToInt()
+                    .toFloat() / 100).toString() + " MB"
+            } else {
+                ((size.toString().toFloat() / 1024 * 100).roundToInt()
+                    .toFloat() / 100).toString() + " KB"
+            }
+        } else {
+            "$size B"
+        }
+        holder.sizeTextView.text = size
+        holder.albumTextView.text = currentItem.albumP4
+        Log.e("Album Art", currentItem.albumArtP6.toString())
+        holder.thumbnail.setImageResource(R.drawable.ic_music)
 
+        if (position == listener.selectedPosition) {
+            holder.apply {
+                titleTextView.setTextColor(Color.parseColor("#FFEA3448"))
+                artistTextView.setTextColor(Color.parseColor("#FFEA3448"))
+                sizeTextView.setTextColor(Color.parseColor("#FFEA3448"))
+                albumTextView.setTextColor(Color.parseColor("#FFEA3448"))
+            }
+        } else {
+            holder.apply {
+                titleTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
+                artistTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
+                sizeTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
+                albumTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
+            }
+        }
     }
 
-    // Return the size of your audioList (invoked by the layout manager)
     override fun getItemCount() = audioList.size
+
+    interface OnItemClickListener {
+        var selectedPosition: Int
+        fun onItemClick(position: Int)
+    }
 }
