@@ -13,11 +13,8 @@
 
         <OnSwipe
             motion:dragDirection="dragUp"
-            motion:maxAcceleration="800"
-
             motion:touchAnchorId="@+id/constraintLayout"
             motion:touchAnchorSide="top" />
-
         <!--motion:touchRegionId="@id/constraintLayout"-->
 
     </Transition>

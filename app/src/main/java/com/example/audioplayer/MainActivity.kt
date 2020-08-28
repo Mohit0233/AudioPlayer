@@ -17,7 +17,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
-import android.util.Size
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -32,7 +31,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
 
@@ -128,8 +126,6 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
         startPlayback(position)
     }
 
-
-
     private fun startPlayback(position: Int) {
 
         val id: Long = audioList[position].idP0
@@ -185,7 +181,6 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
         }
     }
 
-
     private fun asyncSeekBar() {
         if (mediaPlayer!!.isPlaying) {
 
@@ -228,10 +223,8 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
                 val idColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
                 val sizeColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.SIZE)
                 val durationColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
-                //val artistIdColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
                 val albumColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM)
                 val artistColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST)
-
 
                 do {
                     val thisId = cursor.getLong(idColumn)
@@ -240,13 +233,8 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
                     val thisDuration = cursor.getInt(durationColumn)
                     val thisAlbum = cursor.getString(albumColumn)
                     val thisArtist = cursor.getString(artistColumn)
-                    val size = Size(100, 100)
-                    var thisAlbumArt: Bitmap? = null
-                    try {
-                        thisAlbumArt = resolver.loadThumbnail(uri, size, null)
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+
+                    val bitmap: Bitmap? = null
                     audioList.plusAssign(
                         AudioItem(
                             thisId,
@@ -255,7 +243,7 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
                             thisDuration,
                             thisAlbum,
                             thisArtist,
-                            thisAlbumArt
+                            bitmap
                         )
                     )
                 } while (cursor.moveToNext())

@@ -9,4 +9,5 @@
     <string name="you_are_going_to_exit_the_app_in">You are going to exit the app in</string>
     <string name="album_art">Album Art</string>
     <string name="repeat">Repeat</string>
+    <string name="urlString">content://media/external/audio/albumart</string>
 </resources>
