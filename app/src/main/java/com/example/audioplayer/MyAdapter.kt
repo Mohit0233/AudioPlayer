@@ -77,7 +77,7 @@ class MyAdapter(
                 sizeTextView.setTextColor(Color.parseColor("#FFEA3448"))
                 albumTextView.setTextColor(Color.parseColor("#FFEA3448"))
             }
-        } else {
+        } else if (position == listener.previousPosition) {
             holder.apply {
                 titleTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
                 artistTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
@@ -91,6 +91,7 @@ class MyAdapter(
 
     interface OnItemClickListener {
         var selectedPosition: Int
+        var previousPosition: Int
         fun onItemClick(position: Int)
     }
 }

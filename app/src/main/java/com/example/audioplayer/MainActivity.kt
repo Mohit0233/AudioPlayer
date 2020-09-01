@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
     AudioManager.OnAudioFocusChangeListener {
 
     override var selectedPosition: Int = RecyclerView.NO_POSITION
+    override var previousPosition: Int = RecyclerView.NO_POSITION
     private val permissionRequestCode = 0
     private var audioList = ArrayList<AudioItem>()
     private lateinit var recyclerView: RecyclerView
@@ -106,14 +107,16 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
     }
 
     private fun toggleLooping() {
-        if (mediaPlayer!!.isPlaying)
-            if (mediaPlayer!!.isLooping) {
-                mediaPlayer!!.isLooping = false
-                repeat.setImageResource(R.drawable.ic_baseline_repeat_32)
-            } else {
-                mediaPlayer?.isLooping = true
-                repeat.setImageResource(R.drawable.ic_baseline_repeat_one_32)
-            }
+        if (mediaPlayer != null) {
+            if (mediaPlayer!!.isPlaying)
+                if (mediaPlayer!!.isLooping) {
+                    mediaPlayer!!.isLooping = false
+                    repeat.setImageResource(R.drawable.ic_baseline_repeat_32)
+                } else {
+                    mediaPlayer?.isLooping = true
+                    repeat.setImageResource(R.drawable.ic_baseline_repeat_one_32)
+                }
+        }
     }
 
     override fun onAudioFocusChange(p0: Int) {
@@ -155,8 +158,10 @@ class MainActivity : AppCompatActivity(), MyAdapter.OnItemClickListener,
                 playPause.setImageResource(R.drawable.ic_white_baseline_pause_32)
                 seekBar.isEnabled = true
                 titleView.text = audioList[position].titleP1
+                previousPosition = selectedPosition
                 selectedPosition = position
-                viewAdapter.notifyDataSetChanged()
+                viewAdapter.notifyItemChanged(selectedPosition)
+                viewAdapter.notifyItemChanged(previousPosition)
                 lifecycleScope.launch {
                     while (true) {
                         delay(100)
