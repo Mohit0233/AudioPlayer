@@ -14,8 +14,8 @@
         <OnSwipe
             motion:dragDirection="dragUp"
             motion:touchAnchorId="@+id/constraintLayout"
-            motion:touchAnchorSide="top" />
-        <!--motion:touchRegionId="@id/constraintLayout"-->
+            motion:touchAnchorSide="top"
+            motion:touchRegionId="@id/parent_layout" />
 
     </Transition>
 
